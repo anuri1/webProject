@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TypingSimulator - Уровень 1: Новичок</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="game-header">
+    <button id="btn-back" class="btn btn-secondary">← В главное меню</button>
+    <h1 class="level-title">Уровень 1: Новичок</h1>
+    <button id="btn-restart" class="btn btn-secondary">↻ Перезапуск</button>
+</header>
+
+<main class="game-container">
+
+    <div class="live-stats">
+        <div class="stat-box">
+            <span class="stat-label">Скорость:</span>
+            <span id="live-wpm" class="stat-value">0 зн/мин</span>
+        </div>
+        <div class="stat-box">
+            <span class="stat-label">Точность:</span>
+            <span id="live-accuracy" class="stat-value">100%</span>
+        </div>
+    </div>
+
+    <div class="progress-container">
+        <div id="progress-bar" class="progress-fill" style="width: 0%;"></div>
+    </div>
+
+
+    <div id="typing-area" class="typing-area">
+    </div>
+
+</main>
+
+<div id="result-modal" class="modal hidden">
+    <div class="modal-content">
+        <h2>Уровень пройден!</h2>
+        <div class="final-stats">
+            <p>Скорость: <strong id="final-wpm">120</strong> зн/мин</p>
+            <p>Точность: <strong id="final-accuracy">98</strong>%</p>
+        </div>
+
+        <form id="save-result-form" class="save-form">
+            <label for="player-name">Введите ваш никнейм:</label>
+            <input type="text" id="player-name" placeholder="Имя игрока" required>
+            <button type="submit" id="btn-save" class="btn btn-primary">Сохранить результат</button>
+        </form>
+
+        <div class="modal-actions">
+            <button id="btn-modal-restart" class="btn btn-secondary">Сыграть еще раз</button>
+            <button id="btn-next-level" class="btn btn-primary">Следующий уровень</button>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
