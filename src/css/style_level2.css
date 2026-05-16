@@ -100,7 +100,6 @@ body {
     font-weight: 700;
 }
 
-/* --- Прогресс-бар --- */
 .progress-container {
     width: 100%;
     height: 10px;
@@ -255,4 +254,83 @@ body {
     text-align: center;
     position: relative;
     width: 100%;
+}
+
+.meteor-field {
+    position: relative;
+    width: 100%;
+    height: 500px;
+    background: var(--br-color-dark);
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    overflow: hidden;
+}
+
+.field-hint {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--text-muted);
+    font-size: 1rem;
+    text-align: center;
+    pointer-events: none;
+    white-space: nowrap;
+}
+
+.danger-zone {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background-color: var(--incorrect-color);
+    opacity: 0.4;
+}
+
+.meteor {
+    position: absolute;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    user-select: none;
+    pointer-events: none;
+    transition: color 0.1s;
+}
+
+.meteor.error {
+    color: var(--incorrect-color);
+}
+
+.hit-burst {
+    position: absolute;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--correct-color);
+    pointer-events: none;
+    animation: hit-burst 0.5s ease-out forwards;
+}
+
+@keyframes hit-burst {
+    0%   { transform: scale(1);   opacity: 1; }
+    100% { transform: scale(2.2); opacity: 0; }
+}
+
+.lives-container {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+}
+
+.life {
+    font-size: 1.5rem;
+}
+
+.life.active {
+    color: var(--incorrect-color);
+}
+
+.life.lost {
+    color: var(--text-main);
+    opacity: 0.3;
 }
