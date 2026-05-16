@@ -82,6 +82,7 @@ class meteorGame extends Game {
     pause() {
         if (this.state !== 'running') return;
         this.state = 'paused';
+        this.pausedAt = Date.now();
         this.keyboard.stop();
         clearInterval(this.statsInterval);
         clearInterval(this.spawnTimerId);
@@ -93,7 +94,12 @@ class meteorGame extends Game {
     resume() {
         if (this.state !== 'paused') return;
         this.state = 'running';
+        this.startTime += Date.now() - this.pausedAt;
         this.keyboard.start();
+
+        console.log('startTime после resume:', this.startTime);
+        console.log('pausedAt:', this.pausedAt);
+
         this.statsInterval = setInterval(() => this.updateStats(), 1000);
         if (this.queueIndex < this.letterQueue.length) {
             this.spawnTimerId = setInterval(() => this.spawnMeteor(), this.spawnDelay);
@@ -140,6 +146,7 @@ class meteorGame extends Game {
         this.won = false;
         this.baseSpeed = 50;
         this.spawnDelay = 1300;
+        this.pausedAt = null;
 
         if (this.hintEl) { this.hintEl.style.display = ''; }
 
@@ -249,6 +256,21 @@ class meteorGame extends Game {
         }
 
         this.updateStats();
+    }
+
+    updateStats() {
+        if (!this.startTime) return;
+
+        const now = this.state === 'paused' ? this.pausedAt : Date.now();
+        const elapsedMin = (now - this.startTime) / 60000;
+        const wpm = elapsedMin > 0 ? Math.round(this.processedCount / elapsedMin) : 0;
+        const accuracy = this.totalKeystrokes > 0
+            ? Math.round(((this.totalKeystrokes - this.errors) / this.totalKeystrokes) * 100)
+            : 100;
+
+        document.getElementById('live-wpm').textContent = wpm + ' зн/мин';
+        document.getElementById('live-accuracy').textContent = accuracy + '%';
+        console.log('now:', now, 'startTime:', this.startTime, 'разница мс:', now - this.startTime);
     }
 
     showHitEffect(x, y, char) {
