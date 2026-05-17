@@ -76,7 +76,7 @@ class meteorGame extends Game {
 
         this.livesEl = document.createElement('div');
         this.livesEl.className = 'lives-container';
-        container.appendChild(this.livesEl);
+        document.querySelector('.live-stats').appendChild(this.livesEl);
 
         this.renderLives();
     }
@@ -88,6 +88,14 @@ class meteorGame extends Game {
                 window.location.href = '../level3/level3.html';
             });
         }
+
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                if (this.state === 'running') this.pause();
+            } else {
+                if (this.state === 'paused') this.resume();
+            }
+        });
     }
 
     renderLives() {
