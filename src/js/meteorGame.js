@@ -76,7 +76,8 @@ class meteorGame extends Game {
 
         this.livesEl = document.createElement('div');
         this.livesEl.className = 'lives-container';
-        document.querySelector('.live-stats').appendChild(this.livesEl);
+        const accuracyBox = document.querySelector('.live-stats .stat-box:last-child');
+        document.querySelector('.live-stats').insertBefore(this.livesEl, accuracyBox);
 
         this.renderLives();
     }
