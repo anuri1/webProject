@@ -67,7 +67,15 @@ body {
 }
 
 .btn-secondary {
-    background-color: var(--br-color-dark);
+    /*background-color: var(--br-color-dark);*/
+    background:
+
+            linear-gradient(
+                    180deg,
+                    #101522 0%,
+                    #1b2440 50%,
+                    #101522 100%
+            );
     color: var(--text-main);
 }
 
@@ -88,7 +96,13 @@ body {
     display: flex;
     justify-content: space-between;
     font-size: 1.2rem;
-    background: var(--br-color-dark);
+    background:
+            linear-gradient(
+                    180deg,
+                    #101522 0%,
+                    #1b2440 50%,
+                    #101522 100%
+            );
     padding: 15px 25px;
     border-radius: var(--border-radius);
     box-shadow: 0 4px 6px rgba(0,0,0,0.05);
