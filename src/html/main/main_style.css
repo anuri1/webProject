@@ -43,6 +43,52 @@ body {
     margin-left: auto;
     display: flex;
     gap: 20px;
+    align-items: center;
+}
+
+.level-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.level-menu {
+    position: absolute;
+    top: calc(100% + 20px);
+    left: 0;
+
+    width: 100%;
+    box-sizing: border-box;
+
+    padding: 12px;
+
+    border: 1px solid rgba(150, 170, 255, 0.25);
+
+    background: var(--text-dark);
+    z-index: 100;
+}
+
+.level-button {
+    display: list-item;
+    list-style: disclosure-closed inside;
+}
+
+.level-dropdown[open] .level-button {
+    list-style: disclosure-open inside;
+}
+
+.level-option {
+    display: block;
+
+    padding: 12px 0px;
+
+    color: #eef2ff;
+    text-decoration: none;
+
+    border-radius: 8px;
+
+    transition:
+            background 0.15s ease,
+            color 0.15s ease;
 }
 
 .link {
