@@ -6,12 +6,14 @@
     --primary-color: #4dabf7;
     --primary-hover: #3bc9db;
     --correct-color: #6dab8c;
-    --incorrect-color: #fa5252;
+    --incorrect-color: #ff6d2e;
     --cursor-color: #4dabf7;
     --border-radius: 8px;
     --text-color-primary: #b4c1dc;
     --bg-progress-bar: #b4c1dc;
     --bg-full-progress-bar: #805bc0;
+    --danger-height: 44px;
+    --glow-color: 255, 45, 90;
 }
 
 * {
@@ -260,10 +262,13 @@ body {
     position: relative;
     width: 100%;
     height: 500px;
-    background: var(--br-color-dark);
+    background:
+            radial-gradient(circle at 50% 20%, rgba(120, 140, 255, 0.12), transparent 35%),
+            linear-gradient(180deg, #101522 0%, #05070d 100%);
     border-radius: var(--border-radius);
     box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-    overflow: hidden;
+    overflow: hidden; /* сделать visible?*/
+    isolation: isolate;
 }
 
 .field-hint {
@@ -276,16 +281,75 @@ body {
     text-align: center;
     pointer-events: none;
     white-space: nowrap;
+    z-index: 5;
 }
 
 .danger-zone {
     position: absolute;
-    bottom: 0;
     left: 0;
     right: 0;
-    height: 4px;
-    background-color: var(--incorrect-color);
-    opacity: 0.4;
+    bottom: 0;
+    height: var(--danger-height);
+    z-index: 3;
+    background: linear-gradient(
+                    90deg,
+                    rgba(255, 40, 80, 0.25),
+                    rgba(255, 40, 80, 0.55),
+                    rgba(255, 40, 80, 0.25)
+            );
+
+    border-top: 1px solid rgba(255, 90, 120, 0.75);
+    box-shadow:
+            inset 0 1px 0 rgba(255, 255, 255, 0.18),
+            0 -10px 30px rgba(var(--glow-color), 0.18);
+}
+
+
+.danger-zone::before {
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+    right: 0;
+    bottom: 100%;
+
+    height: 90px;
+
+    pointer-events: none;
+
+    background:
+            radial-gradient(
+                    ellipse at bottom,
+                    rgba(var(--glow-color), 0.35) 0%,
+                    rgba(var(--glow-color), 0.18) 35%,
+                    rgba(var(--glow-color), 0.06) 60%,
+                    transparent 80%
+            );
+
+    filter: blur(8px);
+    opacity: 0.9;
+
+    animation: danger-glow-pulse 4s ease-in-out infinite;
+}
+
+
+.danger-zone::after {
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 1px;
+    background:
+            linear-gradient(
+                    90deg,
+                    transparent,
+                    rgba(255, 120, 150, 0.9),
+                    transparent
+            );
 }
 
 .meteor {
@@ -296,6 +360,7 @@ body {
     user-select: none;
     pointer-events: none;
     transition: color 0.1s;
+    z-index: 4;
 }
 
 .meteor.error {
@@ -334,3 +399,89 @@ body {
     color: var(--text-main);
     opacity: 0.3;
 }
+
+.modal .modal-content {
+    background: var(--bg-color);
+}
+
+@keyframes danger-glow-pulse {
+    0%,
+    100% {
+        opacity: 0.65;
+        transform: scaleY(1);
+    }
+
+    50% {
+        opacity: 1;
+        transform: scaleY(1.08);
+    }
+}
+
+
+.particle-layer {
+    position: absolute;
+    inset: 0;
+
+    z-index: 2;
+
+    overflow: hidden;
+    pointer-events: none;
+
+    border-radius: inherit;
+}
+
+.particle-layer span {
+    --x: 50%;
+    --size: 2px;
+    --dur: 12s;
+    --delay: 0s;
+    --drift: 0px;
+
+    position: absolute;
+
+    left: var(--x);
+    bottom: calc(var(--danger-height) - 8px);
+
+    width: var(--size);
+    height: var(--size);
+
+    border-radius: 50%;
+
+    background: rgba(250, 225, 230, 0.95);
+
+    box-shadow:
+            0 0 6px rgba(255, 80, 120, 0.9),
+            0 0 14px rgba(255, 40, 90, 0.65);
+
+    opacity: 0;
+
+    animation-name: particle-rise;
+    animation-duration: var(--dur);
+    animation-timing-function: ease-out;
+    animation-iteration-count: infinite;
+    animation-delay: var(--delay);
+}
+
+
+@keyframes particle-rise {
+    0%,
+    58% {
+        opacity: 0;
+        transform: translateX(0) translateY(0) scale(0.4);
+    }
+
+    64% {
+        opacity: 0.9;
+    }
+
+    88% {
+        opacity: 0.35;
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateX(var(--drift)) translateY(-250px) scale(0.15);
+    }
+}
+
+

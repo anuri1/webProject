@@ -31,9 +31,43 @@ class meteorGame extends Game {
         this.meteorField.className = 'meteor-field';
         container.appendChild(this.meteorField);
 
-        const danger = document.createElement('div');
-        danger.className = 'danger-zone';
-        this.meteorField.appendChild(danger);
+        this.particleLayer = document.createElement('div');
+        this.particleLayer.className = 'particle-layer';
+        this.particleLayer.setAttribute('aria-hidden', 'true');
+
+        const particles = [
+            { x: '8%',  size: '12px', dur: '11s', delay: '-2s',  drift: '20px' },
+            { x: '22%', size: '23px', dur: '14s', delay: '-7s',  drift: '-15px' },
+            { x: '37%', size: '12px', dur: '10s', delay: '-4s',  drift: '10px' },
+            { x: '55%', size: '34px', dur: '16s', delay: '-10s', drift: '-25px' },
+            { x: '71%', size: '22px', dur: '12s', delay: '-6s',  drift: '18px' },
+            { x: '86%', size: '23px', dur: '15s', delay: '-12s', drift: '-12px' },
+            { x: '14%', size: '12px', dur: '17s', delay: '-9s',  drift: '-18px' },
+            { x: '63%', size: '13px', dur: '10s', delay: '-5s',  drift: '-42px' },
+            { x: '12%', size: '23px', dur: '11s', delay: '-9s',  drift: '32px' },
+            { x: '30%', size: '13px', dur: '12s', delay: '-5s',  drift: '-32px' },
+            { x: '6%', size: '33px', dur: '13s', delay: '-3s',  drift: '2px' },
+            { x: '20%', size: '13px', dur: '16s', delay: '-4s',  drift: '-40px' },
+            { x: '35%', size: '25px', dur: '13s', delay: '-6s',  drift: '48px' },
+        ];
+
+        particles.forEach((p) => {
+            const particle = document.createElement('span');
+
+            particle.style.setProperty('--x', p.x);
+            particle.style.setProperty('--size', p.size);
+            particle.style.setProperty('--dur', p.dur);
+            particle.style.setProperty('--delay', p.delay);
+            particle.style.setProperty('--drift', p.drift);
+
+            this.particleLayer.appendChild(particle);
+        });
+
+        this.meteorField.appendChild(this.particleLayer);
+
+        this.dangerEl = document.createElement('div');
+        this.dangerEl.className = 'danger-zone';
+        this.meteorField.appendChild(this.dangerEl);
 
         this.hintEl = document.createElement('p');
         this.hintEl.className = 'field-hint';
