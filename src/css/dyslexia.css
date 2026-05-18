@@ -145,6 +145,8 @@ body {
     flex-wrap: wrap;
     gap: 12px;
     user-select: none;
+    word-break: keep-all;
+    white-space: normal;
 }
 
 .letter {
