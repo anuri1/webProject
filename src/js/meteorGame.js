@@ -86,7 +86,7 @@ class meteorGame extends Game {
         const nextBtn = document.getElementById('btn-next-level');
         if (nextBtn) {
             nextBtn.addEventListener('click', () => {
-                window.location.href = '../level3/level3.html';
+                window.location.href = '../level3.html';
             });
         }
 
