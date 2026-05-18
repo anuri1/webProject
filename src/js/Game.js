@@ -8,6 +8,9 @@ class Game {
         this.startTime = null;
         this.statsInterval = null;
 
+        const titleText = document.querySelector('.level-title')?.textContent || '';
+        this.levelNumber = titleText.includes('4') || titleText.toLowerCase().includes('дислексия') ? 4 : 1;
+
         this.overlay = document.getElementById('overlay');
         this.modal = document.getElementById('modal-pause');
         this.typingArea = document.getElementById('typing-area');
@@ -126,32 +129,12 @@ class Game {
 
     renderText() {
         this.typingArea.innerHTML = '';
-        const words = this.text.split(' ');
-        let pos = 0;
-
-        words.forEach((word, wi) => {
-            const wordEl = document.createElement('span');
-            wordEl.className = 'word';
-
-            for (let i = 0; i < word.length; i++) {
-                const span = document.createElement('span');
-                span.classList.add('letter');
-                span.textContent = word[i];
-                wordEl.appendChild(span);
-                pos++;
-            }
-
-            this.typingArea.appendChild(wordEl);
-
-            if (wi < words.length - 1) {
-                const space = document.createElement('span');
-                space.classList.add('letter');
-                space.textContent = '\u00A0';
-                this.typingArea.appendChild(space);
-                pos++;
-            }
-        });
-
+        for (let i = 0; i < this.text.length; i++) {
+            const span = document.createElement('span');
+            span.classList.add('letter');
+            span.textContent = this.text[i] === ' ' ? '\u00A0' : this.text[i];
+            this.typingArea.appendChild(span);
+        }
         this.updateCursor();
     }
 

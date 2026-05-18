@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TypingSimulator - Уровень 2: Метеоритный дождь</title>
-    <link rel="stylesheet" href="../../css/style_level2.css">
+    <title>TypingSimulator - Уровень 3: Дислексия</title>
+    <link rel="stylesheet" href="../../css/dyslexia.css">
 </head>
 <body>
 
@@ -15,11 +15,15 @@
 
 <header class="game-header">
     <button id="btn-back" class="btn btn-secondary" onclick="window.location.href='../main/main.html'">← В главное меню</button>
-    <h1 class="level-title">Уровень 2: Метеоритный дождь</h1>
+    <h1 class="level-title">Уровень 3: Дислексия</h1>
     <button id="btn-restart" class="btn btn-secondary">↻ Перезапуск</button>
 </header>
 
 <main class="game-container">
+
+    <div class="level-hint">
+        <strong>Внимание:</strong> Буквы в словах перепутаны местами и меняют свое положение. Ваша задача — понять слово и напечатать его в <strong>правильном</strong> формате!
+    </div>
 
     <div class="live-stats">
         <div class="stat-box">
@@ -35,6 +39,10 @@
     <div class="progress-container">
         <div id="progress-bar" class="progress-fill" style="width: 0%;"></div>
     </div>
+
+    <div id="typing-area" class="typing-area">
+    </div>
+
 </main>
 
 <div id="result-modal" class="modal hidden">
@@ -53,13 +61,13 @@
 
         <div class="modal-actions">
             <button id="btn-modal-restart" class="btn btn-secondary">Сыграть еще раз</button>
-            <button id="btn-next-level" class="btn btn-primary" onclick="window.location.href='level3.html'">Следующий уровень</button>
+            <button id="btn-next-level" class="btn btn-primary" onclick="window.location.href='../main/main.html'">В меню уровней</button>
         </div>
     </div>
 </div>
 
-<script src="../../js/keyboardHandler.js"></script>
-<script src="../../js/Game.js"></script>
-<script src="../../js/meteorGame.js"></script>
+<script src="../../../src/js/keyboardHandler.js"></script>
+<script src="../../../src/js/Game.js"></script>
+<script src="../../../src/js/dyslexiaGame.js"></script>
 </body>
 </html>
