@@ -7,6 +7,9 @@ class Game {
         this.totalKeystrokes = 0;
         this.startTime = null;
         this.statsInterval = null;
+        
+        const titleText = document.querySelector('.level-title')?.textContent || '';
+        this.levelNumber = titleText.includes('4') || titleText.toLowerCase().includes('дислексия') ? 4 : 1;
 
         this.overlay = document.getElementById('overlay');
         this.modal = document.getElementById('modal-pause');
@@ -41,6 +44,10 @@ class Game {
         this.startTime = Date.now();
         this.keyboard.start();
         this.statsInterval = setInterval(() => this.updateStats(), 1000);
+
+        if (typeof AudioController !== 'undefined') {
+            AudioController.playBackground(this.levelNumber);
+        }
     }
 
     pause() {
@@ -49,6 +56,10 @@ class Game {
         this.keyboard.stop();
         clearInterval(this.statsInterval);
         this.showPauseOverlay();
+
+        if (typeof AudioController !== 'undefined') {
+            AudioController.stopBackground();
+        }
     }
 
     resume() {
@@ -57,6 +68,10 @@ class Game {
         this.keyboard.start();
         this.statsInterval = setInterval(() => this.updateStats(), 1000);
         this.hidePauseOverlay();
+
+        if (typeof AudioController !== 'undefined') {
+            AudioController.playBackground(this.levelNumber);
+        }
     }
 
     finish() {
@@ -64,6 +79,10 @@ class Game {
         this.keyboard.stop();
         clearInterval(this.statsInterval);
         this.showResultModal();
+
+        if (typeof AudioController !== 'undefined') {
+            AudioController.stopBackground();
+        }
     }
 
     restart() {
@@ -78,6 +97,10 @@ class Game {
         document.getElementById('live-wpm').textContent = '0 зн/мин';
         document.getElementById('live-accuracy').textContent = '100%';
         this.renderText();
+
+        if (typeof AudioController !== 'undefined') {
+            AudioController.stopBackground();
+        }
     }
 
     showResultModal() {
@@ -129,6 +152,11 @@ class Game {
         for (let i = 0; i < this.text.length; i++) {
             const span = document.createElement('span');
             span.classList.add('letter');
+
+            if (this.levelNumber === 4) {
+                span.classList.add('shuffling');
+            }
+
             span.textContent = this.text[i] === ' ' ? '\u00A0' : this.text[i];
             this.typingArea.appendChild(span);
         }
@@ -142,7 +170,6 @@ class Game {
             letters[this.currentPos].classList.add('current');
         }
     }
-
 
     handleChar(char) {
         if (this.state === 'idle') this.start();
@@ -159,6 +186,11 @@ class Game {
         if (char === expected) {
             letterEl.classList.remove('incorrect');
             letterEl.classList.add('correct');
+
+            if (typeof AudioController !== 'undefined') {
+                AudioController.playCorrect();
+            }
+
             this.currentPos++;
             this.updateCursor();
             this.updateProgress();
@@ -169,12 +201,15 @@ class Game {
         } else {
             letterEl.classList.add('incorrect');
             this.errors++;
+
+            if (typeof AudioController !== 'undefined') {
+                AudioController.playIncorrect();
+            }
         }
 
         this.updateStats();
     }
 }
-
 
 if (document.getElementById('typing-area')) {
     const texts = [
