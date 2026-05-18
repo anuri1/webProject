@@ -251,3 +251,8 @@ body {
     position: relative;
     width: 100%;
 }
+
+.word {
+    display: inline-block;
+    white-space: nowrap;
+}
