@@ -69,5 +69,96 @@
 <script src="../../../src/js/keyboardHandler.js"></script>
 <script src="../../../src/js/Game.js"></script>
 <script src="../../../src/js/dyslexiaGame.js"></script>
+
+<script>
+    (function() {
+        'use strict';
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var form = document.getElementById('save-result-form');
+            var nameInput = document.getElementById('player-name');
+            var saveBtn = document.getElementById('btn-save');
+
+            if (!form) {
+                console.warn('Form not found');
+                return;
+            }
+
+            form.addEventListener('submit', async function(event) {
+                event.preventDefault();
+
+                var name = nameInput ? nameInput.value.trim() : '';
+
+                if (!name) {
+                    alert('Please enter your nickname');
+                    if (nameInput) nameInput.focus();
+                    return;
+                }
+
+                if (name.length < 2) {
+                    alert('Nickname must be at least 2 characters');
+                    if (nameInput) nameInput.focus();
+                    return;
+                }
+
+                var wpmEl = document.getElementById('final-wpm');
+                var accEl = document.getElementById('final-accuracy');
+
+                var wpm = wpmEl ? parseInt(wpmEl.textContent || '0') : 0;
+                var accuracy = accEl ? parseInt(accEl.textContent || '0') : 0;
+
+                var data = {
+                    player_name: name,
+                    level_id: 3,
+                    level_name: 'Level 3',
+                    speed: wpm,
+                    accuracy: accuracy,
+                    score: Math.round(wpm * accuracy / 100)
+                };
+
+                if (saveBtn) {
+                    saveBtn.disabled = true;
+                    saveBtn.textContent = 'Saving...';
+                }
+
+                try {
+                    console.log('Sending result:', data);
+
+                    var response = await fetch('http://localhost:5000/api/leaders', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(data)
+                    });
+
+                    if (!response.ok) {
+                        var errorText = await response.text();
+                        throw new Error('Error ' + response.status + ': ' + errorText);
+                    }
+
+                    var result = await response.json();
+                    console.log('Saved successfully:', result);
+
+                    if (saveBtn) {
+                        saveBtn.textContent = 'Saved';
+                        saveBtn.style.background = '#27ae60';
+                    }
+
+                    alert('Result saved successfully');
+
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert('Save error: ' + error.message + '\nMake sure backend is running (node server.js)');
+                    if (saveBtn) {
+                        saveBtn.disabled = false;
+                        saveBtn.textContent = 'Save Result';
+                        saveBtn.style.background = '';
+                    }
+                }
+            });
+        });
+    })();
+</script>
 </body>
 </html>
